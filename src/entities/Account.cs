@@ -1,6 +1,6 @@
 namespace src;
 
-public class Account
+public sealed class Account
 {
     private readonly string DIGITAL_AGENCY_NUMBER = "0001";
     public string AccountNumber { get; init; }
