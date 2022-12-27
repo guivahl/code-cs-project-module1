@@ -22,11 +22,10 @@ namespace Repositories.Tests
         [Fact]
         public void Client_Deactivate()
         {
-            string CPF = "89405690248";
+            string CPF = "27031818508";
             string name = Utils.RandomString(20);
 
             Client? client = ClientRepository.Create(CPF, name);
-
             Assert.Null(client.DeactivateAt);
 
             ClientRepository.Deactivate(client);
@@ -37,7 +36,7 @@ namespace Repositories.Tests
         [Fact]
         public void Client_UpdateName()
         {
-            string CPF = "89405690248";
+            string CPF = "81018317627";
             string name = Utils.RandomString(20);
 
             Client? client = ClientRepository.Create(CPF, name);
