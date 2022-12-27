@@ -3,7 +3,7 @@ namespace Repositories.Tests
     public class EmployeeRepositoryTests
     {
         [Fact]
-        public void Client_CreateNewEmployee()
+        public void Employee_CreateNewEmployee()
         {
             string username = Utils.RandomString(6);
             string password = Utils.RandomString(20);
@@ -46,6 +46,30 @@ namespace Repositories.Tests
             EmployeeRepository.Deactivate(employee);
 
             Assert.NotNull(employee.DeactivateAt);
+        }
+
+        [Fact]
+        public void Employee_Login()
+        {   
+            string username = Utils.RandomString(6);
+            string password = Utils.RandomString(20);
+
+            Employee? employee = EmployeeRepository.Create(username, password);
+
+            Assert.True(EmployeeRepository.Login(username, password));
+        }
+
+        [Fact]
+        public void Employee_LoginWrongPassword()
+        {   
+            string username = Utils.RandomString(6);
+            string password = Utils.RandomString(20);
+
+            Employee? employee = EmployeeRepository.Create(username, password);
+
+            string wrongPassword = Utils.RandomString(20);
+
+            Assert.False(EmployeeRepository.Login(username, wrongPassword));
         }
     }
 }
