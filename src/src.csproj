@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="brazil-utilities" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
