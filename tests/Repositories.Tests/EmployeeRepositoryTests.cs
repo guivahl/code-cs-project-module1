@@ -71,5 +71,14 @@ namespace Repositories.Tests
 
             Assert.False(EmployeeRepository.Login(username, wrongPassword));
         }
+        
+        [Fact]
+        public void Employee_LoginUserNotRegistered()
+        {   
+            string username = Utils.RandomString(6);
+            string password = Utils.RandomString(20);
+
+            Assert.False(EmployeeRepository.Login(username, password));
+        }
     }
 }
