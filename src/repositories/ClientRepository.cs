@@ -5,7 +5,7 @@ using DanielMarques.Utilities;
 public static class ClientRepository
 {
     private static readonly int CPF_LENGTH = 11;
-    public static List<Client> Clients { get; set; } = new List<Client>();
+    private static List<Client> Clients { get; set; } = new List<Client>();
     public static Client? FindByCpf(string clientCpf) => 
         Clients.FirstOrDefault(client => client.CPF == clientCpf);
 
@@ -36,6 +36,8 @@ public static class ClientRepository
         if (account == null) return null;
 
         Client client = new Client(clientCpf, name, account);
+
+        Clients.Add(client);
 
         return client;
     }
