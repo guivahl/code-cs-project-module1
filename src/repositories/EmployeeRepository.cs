@@ -39,5 +39,23 @@ public static class EmployeeRepository
         employee.SetPassword(hashedPassword, passwordSalt);
     }
 
+    public static bool Login (string username, string password) {
+        Employee? employee = EmployeeRepository.FindByUsername(username);
+
+        if (employee == null) {
+            System.Console.WriteLine("User not found");
+            return false;
+        }
+
+        bool isPasswordCorrect = AuthService.ComparePassword(password, employee.Password);
+
+        if (!isPasswordCorrect) {
+            System.Console.WriteLine("Password incorrect");
+            return false;
+        }
+
+        return true;
+    }
+
     public static void Deactivate(Employee employee) => employee.DeactivateAt = new DateTime();
 }
