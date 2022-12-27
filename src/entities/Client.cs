@@ -1,6 +1,6 @@
 namespace src;
 
-public class Client
+public sealed class Client
 {
     public Account Account { get; init; }
     public string Name { get; set; }
