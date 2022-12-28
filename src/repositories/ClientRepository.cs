@@ -5,6 +5,8 @@ using DanielMarques.Utilities;
 public static class ClientRepository
 {
     private static readonly int CPF_LENGTH = 11;
+    private static readonly string CSV_FILENAME = "clients.csv";
+
     private static List<Client> Clients { get; set; } = new List<Client>();
     public static Client? FindByCpf(string clientCpf) => 
         Clients.FirstOrDefault(client => client.CPF == clientCpf);
@@ -39,6 +41,8 @@ public static class ClientRepository
 
         Clients.Add(client);
 
+        ClientRepository.Save();
+
         return client;
     }
 
@@ -49,7 +53,28 @@ public static class ClientRepository
         System.Console.WriteLine(String.Join("", clientInfo, accountInfo));
     }
     
-    public static void Update(Client client, string newName) => client.Name = newName;
+    public static void Update(Client client, string newName) {
+        client.Name = newName;
 
+        ClientRepository.Save();
+    }
     public static void Deactivate(Client client) => client.DeactivateAt = new DateTime();
+
+    private static void Save() {
+        FileService clientFile = new FileService(ClientRepository.CSV_FILENAME);
+
+        List<ClientAccountDto> clientsAccounts = new List<ClientAccountDto>();
+
+        Clients.ForEach(client => clientsAccounts.Add(new ClientAccountDto(client, client.Account)));
+
+        clientFile.Write(clientsAccounts);
+    }
+
+    public static void Load() {
+        FileService clientFile = new FileService(ClientRepository.CSV_FILENAME);
+
+        List<ClientAccountDto> clientAccounts = clientFile.Read<ClientAccountDto>();
+
+        Clients = clientAccounts.Select(clientAccount => new Client(clientAccount)).ToList();
+    }
 }
