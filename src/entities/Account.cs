@@ -8,13 +8,20 @@ public sealed class Account
     public string Agency { get; init; }
     public decimal Balance { get; private set; }
 
-    public Account(string accountNumber, string checkDigit)
+    public Account(string AccountNumber, string CheckDigit)
     {
-        this.AccountNumber = accountNumber;
-        this.CheckDigit = checkDigit;
+        this.AccountNumber = AccountNumber;
+        this.CheckDigit = CheckDigit;
         this.Agency = this.DIGITAL_AGENCY_NUMBER;
 
         this.Balance = 0;
+    }
+
+    public Account(ClientAccountDto clientAccount) {
+        this.AccountNumber = clientAccount.AccountNumber;
+        this.CheckDigit = clientAccount.CheckDigit;
+        this.Agency = clientAccount.Agency;
+        this.Balance = clientAccount.Balance;
     }
 
     public void AddBalance(decimal balance) =>
