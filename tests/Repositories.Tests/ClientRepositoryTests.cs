@@ -49,5 +49,18 @@ namespace Repositories.Tests
 
             Assert.True(string.Equals(client.Name, newName));
         }
+        
+        [Fact]
+        public void Client_Load()
+        {
+            using StreamReader stream = new StreamReader(Path.Join(pathDesktop, "clients.csv"));
+            using CsvReader csv = new CsvReader(stream, CultureInfo.InvariantCulture);
+
+            List<ClientAccountDto> records = csv.GetRecords<ClientAccountDto>().ToList();
+
+            // ClientRepository.Load();
+        }
     }
 }
+
+// dotnet test --filter "FullyQualifiedName=Repositories.Tests.ClientRepositoryTests.Client_Load"

@@ -3,6 +3,12 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        ClientRepository.Load();
+
+        // Client? client = ClientRepository.Create("18334799047", "vahl");
+
+        // ClientRepository.Deactivate(client);
+
+        // ClientRepository.ShowAll();
     }
 }
