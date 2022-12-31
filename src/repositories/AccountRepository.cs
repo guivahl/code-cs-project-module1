@@ -32,6 +32,16 @@ public static class AccountRepository
         return account;
     }
 
+    public static Account Create(ClientAccountDto clientAccount) {
+        Account account = new Account(clientAccount);
+        
+        Accounts.Add(account);
+
+        return account;
+    }
+    
+    public static void ShowAll () => Accounts.ForEach(account => System.Console.WriteLine(account.AccountNumber)); 
+
     public static Account? Find(string accountNumber) => 
         Accounts.FirstOrDefault(account => account.AccountNumber == accountNumber);
 }

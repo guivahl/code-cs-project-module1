@@ -46,6 +46,14 @@ public static class ClientRepository
         return client;
     }
 
+    public static Client Create (ClientAccountDto clientAccount) {
+        Account account = AccountRepository.Create(clientAccount);
+
+        Client client = new Client(clientAccount.CPF, clientAccount.Name, account, clientAccount.DeactivateAt);
+
+        return client;
+    }
+    
     public static void Show(Client client) {
         string clientInfo = $"Cliente: {client.Name}\nCPF: {client.CPF}\nSaldo: {client.Account.Balance}\n";
 
@@ -80,6 +88,6 @@ public static class ClientRepository
 
         List<ClientAccountDto> clientsAccounts = clientFile.Read<ClientAccountDto>();
 
-        Clients = clientsAccounts.Select(clientAccount => new Client(clientAccount)).ToList();
+        Clients = clientsAccounts.Select(clientAccount => ClientRepository.Create(clientAccount)).ToList();
     }
 }

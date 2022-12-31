@@ -13,14 +13,4 @@ public sealed class Client
         this.Account = account;
         this.DeactivateAt = DeactivateAt;
     }
-
-    public Client(ClientAccountDto clientAccount) {
-        Account account = new Account(clientAccount);
-
-        this.Account = account;
-        this.Name = clientAccount.Name;
-        this.CPF = clientAccount.CPF;
-        this.DeactivateAt = clientAccount.DeactivateAt;
-    }
-
 }
