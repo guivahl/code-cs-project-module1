@@ -8,10 +8,12 @@ public class Employee
     public DateTime? LastLoginAt { get; set; }
     public DateTime? DeactivateAt { get; set; }
 
-    public Employee (string username, string password, int passwordSalt) {
-        this.Username = username;
-        this.Password = password;
-        this.PasswordSalt = passwordSalt;
+    public Employee (string Username, string Password, int PasswordSalt, DateTime? LastLoginAt = null, DateTime? DeactivateAt = null) {
+        this.Username = Username;
+        this.Password = Password;
+        this.PasswordSalt = PasswordSalt;
+        this.LastLoginAt = LastLoginAt;
+        this.DeactivateAt = DeactivateAt;
     }
 
     public void SetPassword(string password, int passwordSalt) {

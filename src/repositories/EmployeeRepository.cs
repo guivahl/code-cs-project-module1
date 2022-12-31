@@ -2,13 +2,17 @@ namespace src;
 
 public static class EmployeeRepository
 {
-    private static List<Employee> Employees { get; } = new List<Employee>();
+    private static readonly string CSV_FILENAME = "employees.csv";
+    private static List<Employee> Employees { get; set; } = new List<Employee>();
     
     private static Employee? FindByUsername(string username) =>
         Employees.FirstOrDefault(employee => employee.Username == username);
 
-    private static void UpdateLastLogin(Employee employee) => employee.LastLoginAt = DateTime.Now;
-    
+    private static void UpdateLastLogin(Employee employee) {
+        employee.LastLoginAt = DateTime.Now;
+
+        EmployeeRepository.Save();
+    }
     public static Employee? Create(string username, string password)
     {
         Employee? alreadyRegistered = EmployeeRepository.FindByUsername(username);
@@ -27,6 +31,8 @@ public static class EmployeeRepository
 
         Employees.Add(employee);
 
+        EmployeeRepository.Save();
+
         return employee;
     }
 
@@ -37,6 +43,8 @@ public static class EmployeeRepository
         string hashedPassword = AuthService.HashPassword(password, passwordSalt);
 
         employee.SetPassword(hashedPassword, passwordSalt);
+
+        EmployeeRepository.Save();
     }
 
     public static bool Login (string username, string password) {
@@ -47,6 +55,11 @@ public static class EmployeeRepository
             return false;
         }
 
+        if (EmployeeRepository.IsDeactivate(employee)) {
+            System.Console.WriteLine("User not activated");
+            return false;
+        }
+
         bool isPasswordCorrect = AuthService.ComparePassword(password, employee.Password);
 
         if (!isPasswordCorrect) {
@@ -54,8 +67,27 @@ public static class EmployeeRepository
             return false;
         }
 
+        EmployeeRepository.UpdateLastLogin(employee);
+
         return true;
     }
 
-    public static void Deactivate(Employee employee) => employee.DeactivateAt = DateTime.Now;
+    private static bool IsDeactivate(Employee employee) => employee.DeactivateAt != null;
+
+    public static void Deactivate(Employee employee) {
+        employee.DeactivateAt = DateTime.Now;
+
+        EmployeeRepository.Save();
+    }
+    private static void Save() {
+        FileService employeeFile = new FileService(EmployeeRepository.CSV_FILENAME);
+
+        employeeFile.Write(Employees);
+    }
+
+    public static void Load() {
+        FileService employeeFile = new FileService(EmployeeRepository.CSV_FILENAME);
+
+        Employees = employeeFile.Read<Employee>();
+    }
 }
