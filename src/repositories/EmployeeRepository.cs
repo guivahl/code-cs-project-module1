@@ -7,7 +7,7 @@ public static class EmployeeRepository
     private static Employee? FindByUsername(string username) =>
         Employees.FirstOrDefault(employee => employee.Username == username);
 
-    private static void UpdateLastLogin(Employee employee) => employee.LastLoginAt = new DateTime();
+    private static void UpdateLastLogin(Employee employee) => employee.LastLoginAt = DateTime.Now;
     
     public static Employee? Create(string username, string password)
     {
@@ -57,5 +57,5 @@ public static class EmployeeRepository
         return true;
     }
 
-    public static void Deactivate(Employee employee) => employee.DeactivateAt = new DateTime();
+    public static void Deactivate(Employee employee) => employee.DeactivateAt = DateTime.Now;
 }

@@ -52,13 +52,18 @@ public static class ClientRepository
         string accountInfo = $"Conta: {client.Account.AccountNumber}-{client.Account.CheckDigit}\nAgência: {client.Account.Agency}-{client.Account.CheckDigit}\n";
         System.Console.WriteLine(String.Join("", clientInfo, accountInfo));
     }
+    public static void ShowAll() => Clients.ForEach(client => ClientRepository.Show(client));
     
     public static void Update(Client client, string newName) {
         client.Name = newName;
 
         ClientRepository.Save();
     }
-    public static void Deactivate(Client client) => client.DeactivateAt = new DateTime();
+    public static void Deactivate(Client client) {
+        client.DeactivateAt = DateTime.Now;
+
+        ClientRepository.Save();
+    }
 
     private static void Save() {
         FileService clientFile = new FileService(ClientRepository.CSV_FILENAME);
@@ -73,8 +78,8 @@ public static class ClientRepository
     public static void Load() {
         FileService clientFile = new FileService(ClientRepository.CSV_FILENAME);
 
-        List<ClientAccountDto> clientAccounts = clientFile.Read<ClientAccountDto>();
+        List<ClientAccountDto> clientsAccounts = clientFile.Read<ClientAccountDto>();
 
-        Clients = clientAccounts.Select(clientAccount => new Client(clientAccount)).ToList();
+        Clients = clientsAccounts.Select(clientAccount => new Client(clientAccount)).ToList();
     }
 }
