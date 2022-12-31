@@ -4,11 +4,17 @@ public static class EmployeeRepository
 {
     private static readonly string CSV_FILENAME = "employees.csv";
     private static List<Employee> Employees { get; set; } = new List<Employee>();
-    
-    private static Employee? FindByUsername(string username) =>
+
+    public static Employee? FindByUsername(string? username) =>
         Employees.FirstOrDefault(employee => employee.Username == username);
 
-    private static void UpdateLastLogin(Employee employee) {
+    public static bool HasActiveEmployees() =>
+        Employees.Any(employee =>
+            employee.DeactivateAt == null && employee.LastLoginAt != null
+        );
+
+    public static void UpdateLastLogin(Employee employee)
+    {
         employee.LastLoginAt = DateTime.Now;
 
         EmployeeRepository.Save();
@@ -36,58 +42,33 @@ public static class EmployeeRepository
         return employee;
     }
 
-    public static void UpdatePassword(Employee employee, string password)
+    public static void UpdatePassword(Employee employee, string password, int passwordSalt)
     {
-        int passwordSalt = AuthService.RandomSalt();
-
-        string hashedPassword = AuthService.HashPassword(password, passwordSalt);
-
-        employee.SetPassword(hashedPassword, passwordSalt);
+        employee.SetPassword(password, passwordSalt);
 
         EmployeeRepository.Save();
     }
 
-    public static bool Login (string username, string password) {
-        Employee? employee = EmployeeRepository.FindByUsername(username);
+    public static bool IsDeactivate(Employee employee) => employee.DeactivateAt != null;
 
-        if (employee == null) {
-            System.Console.WriteLine("User not found");
-            return false;
-        }
-
-        if (EmployeeRepository.IsDeactivate(employee)) {
-            System.Console.WriteLine("User not activated");
-            return false;
-        }
-
-        bool isPasswordCorrect = AuthService.ComparePassword(password, employee.Password);
-
-        if (!isPasswordCorrect) {
-            System.Console.WriteLine("Password incorrect");
-            return false;
-        }
-
-        EmployeeRepository.UpdateLastLogin(employee);
-
-        return true;
-    }
-
-    private static bool IsDeactivate(Employee employee) => employee.DeactivateAt != null;
-
-    public static void Deactivate(Employee employee) {
+    public static void Deactivate(Employee employee)
+    {
         employee.DeactivateAt = DateTime.Now;
 
         EmployeeRepository.Save();
     }
-    private static void Save() {
+    private static void Save()
+    {
         FileService employeeFile = new FileService(EmployeeRepository.CSV_FILENAME);
 
         employeeFile.Write(Employees);
     }
 
-    public static void Load() {
+    public static void Load()
+    {
         FileService employeeFile = new FileService(EmployeeRepository.CSV_FILENAME);
 
         Employees = employeeFile.Read<Employee>();
     }
+    public static bool HasEmployeesRegistered() => Employees.Count != 0;
 }
