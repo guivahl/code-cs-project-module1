@@ -51,6 +51,8 @@ public static class ClientRepository
 
         Client client = new Client(clientAccount.CPF, clientAccount.Name, account, clientAccount.DeactivateAt);
 
+        Clients.Add(client);
+        
         return client;
     }
     
