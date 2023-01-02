@@ -65,4 +65,10 @@ public static class ClientRepository
 
         Clients = clientsAccounts.Select(clientAccount => ClientRepository.Create(clientAccount)).ToList();
     }
+
+    public static List<Client> ActiveClients () =>
+        Clients.Where(client => client.DeactivateAt == null).ToList();
+    
+    public static List<Client> InactiveClients () =>
+        Clients.Where(client => client.DeactivateAt != null).ToList();
 }

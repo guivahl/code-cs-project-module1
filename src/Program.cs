@@ -43,9 +43,24 @@ class Program
                     config.EnableBreadcrumb = true;
             });
 
+        ConsoleMenu reportMenu = new ConsoleMenu()
+            .Add("Show active clients", () => ReportService.ShowActiveClients())
+            .Add("Show inactive clients", () => ReportService.ShowInactiveClients())
+            .Add("Show active employees", () => ReportService.ShowActiveEmployees())
+            .Add("Show transactions with errors", () => ReportService.ShowTransactionsFailed())
+            .Add("Close", ConsoleMenu.Close)
+            .Configure(config =>
+                    {
+                    config.Selector = ">>> ";
+                    config.Title = "Report Menu";
+                    config.EnableWriteTitle = true;
+                    config.EnableBreadcrumb = true;
+            });
+
         ConsoleMenu menu = new ConsoleMenu()
-            .Add("Client", clientMenu.Show)
-            .Add("Employee", employeeMenu.Show)
+            .Add("Clients", clientMenu.Show)
+            .Add("Employees", employeeMenu.Show)
+            .Add("Reports", reportMenu.Show)
             .Add("Close", ConsoleMenu.Close)
             .Configure(config =>
                     {
