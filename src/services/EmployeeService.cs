@@ -4,16 +4,19 @@ using GetPass;
 
 public class EmployeeService
 {
-    public static bool Authenticate () {
+    public static bool Authenticate()
+    {
         bool isFirstAccess = EmployeeService.IsFirstAccess();
 
-        if (isFirstAccess) {
+        if (isFirstAccess)
+        {
             return EmployeeService.FirstAccess();
         }
 
         return EmployeeService.Login();
     }
-    public static bool IsFirstAccess() {
+    public static bool IsFirstAccess()
+    {
         bool hasEmployeeRegistered = EmployeeRepository.HasEmployeesRegistered();
 
         if (!hasEmployeeRegistered) return true;
@@ -23,28 +26,32 @@ public class EmployeeService
         return !hasActiveEmployees;
     }
 
-    public static void CreateFirstUser() {
+    public static void CreateFirstUser()
+    {
         string firstUser = "user";
         string initialPassword = "pass";
 
         EmployeeRepository.Create(firstUser, initialPassword);
     }
 
-    public static bool FirstAccess() {
+    public static bool FirstAccess()
+    {
         string firstUser = "user";
         string initialPassword = "pass";
 
         Employee? employee = EmployeeRepository.Create(firstUser, initialPassword);
-    
-        if (employee == null) {
+
+        if (employee == null)
+        {
             System.Console.WriteLine("Error creating first user");
             return false;
         }
-        
-        while(!EmployeeService.Login()) {
+
+        while (!EmployeeService.Login())
+        {
             System.Console.WriteLine("Login failed!");
             System.Console.WriteLine("Press any key to try again!");
-                    
+
             Console.ReadKey();
             Console.Clear();
         };
@@ -79,6 +86,8 @@ public class EmployeeService
         if (!isPasswordCorrect)
         {
             System.Console.WriteLine("Password incorrect");
+            Console.ReadKey();
+            Console.Clear();
             return false;
         }
 
@@ -86,11 +95,15 @@ public class EmployeeService
 
         return true;
     }
-    public static void UpdatePassword(string username) {
+    public static void UpdatePassword(string? username)
+    {
         Employee? employee = EmployeeRepository.FindByUsername(username);
 
-        if (employee == null) {
+        if (employee == null)
+        {
             System.Console.WriteLine("User not found");
+            Console.ReadKey();
+            Console.Clear();
             return;
         }
 
@@ -102,6 +115,69 @@ public class EmployeeService
 
         EmployeeRepository.UpdatePassword(employee, hashedPassword, passwordSalt);
 
+    }
+    public static void UpdatePassword()
+    {
+        System.Console.Write("Username: ");
+
+        string? username = Console.ReadLine();
+
+        EmployeeService.UpdatePassword(username);
+    }
+    public static void Deactivate()
+    {
+        System.Console.Write("Username: ");
+
+        string? username = Console.ReadLine();
+
+        Employee? employee = EmployeeRepository.FindByUsername(username);
+
+        if (employee == null)
+        {
+            System.Console.WriteLine("User not found");
+            Console.ReadKey();
+            Console.Clear();
+            return;
+        }
+
+        EmployeeRepository.Deactivate(employee);
+    }
+    public static void Create()
+    {
+        System.Console.Write("Username: ");
+
+        string? username = Console.ReadLine();
+
+        if (string.IsNullOrEmpty(username))
+        {
+            System.Console.WriteLine("Username should not be empty");
+            Console.ReadKey();
+            Console.Clear();
+            return;
+        }
+
+        Employee? alreadyRegistered = EmployeeRepository.FindByUsername(username);
+
+        if (alreadyRegistered != null)
+        {
+            System.Console.WriteLine("Username registered");
+            Console.ReadKey();
+            Console.Clear();
+            return;
+        }
+
+        string password = ConsolePasswordReader.Read();
+
+        Employee? employee = EmployeeRepository.Create(username, password);
+
+        if (employee != null)
+        {
+            System.Console.WriteLine("Employee registered");
+            Console.ReadKey();
+            Console.Clear();
+
+            return;
+        }
     }
 
 };
