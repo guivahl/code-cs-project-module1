@@ -42,6 +42,10 @@ public static class AccountRepository
     
     public static void ShowAll () => Accounts.ForEach(account => System.Console.WriteLine(account.AccountNumber)); 
 
-    public static Account? Find(string accountNumber) => 
-        Accounts.FirstOrDefault(account => account.AccountNumber == accountNumber);
+    public static Account? Find(string? bankCode, string? agency, string? accountNumberWithDigit ) => 
+        Accounts.FirstOrDefault(account => 
+            account.BankCode == bankCode &&
+            account.Agency == agency &&
+            account.AccoutNumberWithDigit == accountNumberWithDigit
+        );
 }

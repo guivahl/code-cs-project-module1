@@ -1,7 +1,5 @@
 namespace src;
 
-using DanielMarques.Utilities;
-
 public static class ClientRepository
 {
     private static readonly string CSV_FILENAME = "clients.csv";
@@ -9,6 +7,9 @@ public static class ClientRepository
     private static List<Client> Clients { get; set; } = new List<Client>();
     public static Client? FindByCpf(string clientCpf) => 
         Clients.FirstOrDefault(client => client.CPF == clientCpf);
+
+    public static Client? FindByAccount(Account account) => 
+        Clients.FirstOrDefault(client => object.Equals(client.Account, account));
 
     public static Client Create(string clientCpf, string name, Account account) {
         Client client = new Client(clientCpf, name, account);
@@ -71,4 +72,25 @@ public static class ClientRepository
     
     public static List<Client> InactiveClients () =>
         Clients.Where(client => client.DeactivateAt != null).ToList();
+    
+    public static bool IsActiveClient (Client client) => client.DeactivateAt != null;
+
+    public static bool ValidClientBalance(Client client, decimal value) =>
+        client.Account.Balance > value;
+
+    public static void DebitValue(Client client, decimal value) {
+
+        client.Account.DecrementBalance(value);
+
+        ClientRepository.Save();
+    }
+
+    public static void CreditValue(Client client, decimal value) {
+
+        client.Account.AddBalance(value);
+
+        ClientRepository.Save();
+    }
+
+
 }
