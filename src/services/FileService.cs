@@ -27,8 +27,6 @@ public class FileService
         if (this.Folder == null) return;
 
         DirectoryInfo target = new DirectoryInfo(this.Folder);
-        System.Console.WriteLine(this.Folder);
-        System.Console.WriteLine(target.Exists);
 
         if (target.Exists) return;
 
@@ -36,7 +34,6 @@ public class FileService
     }
     public static void CreateFolderIfNotExists(string folderPath)
     {
-        System.Console.WriteLine(folderPath);
         DirectoryInfo target = new DirectoryInfo(folderPath);
 
         if (target.Exists) return;
@@ -44,7 +41,7 @@ public class FileService
         target.Create();
     }
 
-    public List<T> ReadWithoutHeader<T, TMap>() 
+    public List<T> Read<T, TMap>() 
     where TMap : ClassMap
     {
 

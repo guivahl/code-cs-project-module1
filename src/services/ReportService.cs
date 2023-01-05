@@ -18,7 +18,7 @@ public class ReportService
         List<Client> activeClients = ClientRepository.ActiveClients();
 
         string[] columns = new string[] {
-            "Name", "CPF", "Balance"
+            "Name", "CPF", "Balance (R$)"
         };
         IEnumerable<string[]> clients = activeClients
             .Select(client => new string[] {
@@ -32,7 +32,7 @@ public class ReportService
         List<Client> inactiveClients = ClientRepository.InactiveClients();
 
         string[] columns = new string[] {
-            "Name", "CPF", "DeactiveAt"
+            "Name", "CPF", "DeactiveAt (mm/dd/yyyy)"
         };
         IEnumerable<object?[]> clients = inactiveClients
             .Select(client => new object?[] {
@@ -48,7 +48,7 @@ public class ReportService
         List<Employee> activeEmployees = EmployeeRepository.ActiveEmployees();
 
         string[] columns = new string[] {
-            "Username", "LastLoginAt"
+            "Username", "LastLoginAt (mm/dd/yyyy)"
         };
 
         IEnumerable<object?[]> employees = activeEmployees

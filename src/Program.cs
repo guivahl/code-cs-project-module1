@@ -7,8 +7,6 @@ class Program
     {
         ClientRepository.Load();
         EmployeeRepository.Load();
-TransactionService.ProcessTransactions();
-return;
         while(!EmployeeService.Authenticate()) {
             System.Console.WriteLine("Authentication failed!");
             System.Console.WriteLine("Press any key to try again!");

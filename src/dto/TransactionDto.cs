@@ -31,7 +31,11 @@ public class TransactionDto
     [Index(8)]
     public decimal Value { get; set; }
 
+    [Index(9)]
     public string? ErrorMessage { get; set; }
+
+    [Index(8)]
+    public decimal Fare { get; set; }
 }
 public sealed class TransactionMap : ClassMap<TransactionDto>
 {
