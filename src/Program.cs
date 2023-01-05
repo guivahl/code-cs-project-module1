@@ -7,7 +7,8 @@ class Program
     {
         ClientRepository.Load();
         EmployeeRepository.Load();
-
+TransactionService.ProcessTransactions();
+return;
         while(!EmployeeService.Authenticate()) {
             System.Console.WriteLine("Authentication failed!");
             System.Console.WriteLine("Press any key to try again!");
@@ -57,10 +58,22 @@ class Program
                     config.EnableBreadcrumb = true;
             });
 
+        ConsoleMenu transactionMenu = new ConsoleMenu()
+            .Add("Process transactions", () => TransactionService.ProcessTransactions())
+            .Add("Close", ConsoleMenu.Close)
+            .Configure(config =>
+                    {
+                    config.Selector = ">>> ";
+                    config.Title = "Transaction Menu";
+                    config.EnableWriteTitle = true;
+                    config.EnableBreadcrumb = true;
+            });
+        
         ConsoleMenu menu = new ConsoleMenu()
             .Add("Clients", clientMenu.Show)
             .Add("Employees", employeeMenu.Show)
             .Add("Reports", reportMenu.Show)
+            .Add("Transactions", transactionMenu.Show)
             .Add("Close", ConsoleMenu.Close)
             .Configure(config =>
                     {
