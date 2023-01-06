@@ -76,6 +76,15 @@ public class ReportService
             "TransactionType","TransactionWay","Value", "ErrorMessage"
         };
 
+        if (transactionFiles.Length == 0) {
+            System.Console.WriteLine("Failed transactions not found! Press enter to continue...");
+            Console.ReadKey();
+
+            return;
+        }
+
+        System.Console.WriteLine($"Number of failed transactions file found: {transactionFiles.Length}");
+
         for (int i = 0; i < transactionFiles.Length; i++)
         {
             string inputFileName = transactionFiles[i].Name;

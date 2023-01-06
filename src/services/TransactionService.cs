@@ -287,6 +287,8 @@ public class TransactionService
     {
         string inputFileName = transactionFile.Name;
 
+        System.Console.WriteLine($"Processing file: {inputFileName}");
+
         string fileExtension = Path.GetExtension(inputFileName);
         string[] fileInfo = Path.GetFileNameWithoutExtension(inputFileName).Split(SEPARATOR_CHAR_FILE);
 
@@ -315,6 +317,8 @@ public class TransactionService
     public static void ProcessTransactions()
     {
         FileInfo[] transactionFiles = TransactionService.TransactionFiles();
+
+        System.Console.WriteLine($"Number of transactions file found: {transactionFiles.Length}");
 
         for (int i = 0; i < transactionFiles.Length; i++)
         {

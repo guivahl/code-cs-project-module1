@@ -72,12 +72,16 @@ public class EmployeeService
         if (employee == null)
         {
             System.Console.WriteLine("User not found");
+            Console.ReadKey();
+            Console.Clear();
             return false;
         }
 
         if (EmployeeRepository.IsDeactivate(employee))
         {
             System.Console.WriteLine("User not activated");
+            Console.ReadKey();
+            Console.Clear();
             return false;
         }
 
@@ -85,7 +89,7 @@ public class EmployeeService
 
         if (!isPasswordCorrect)
         {
-            System.Console.WriteLine("Password incorrect");
+            System.Console.WriteLine("Password incorrect! Press enter to continue...");
             Console.ReadKey();
             Console.Clear();
             return false;
@@ -141,6 +145,11 @@ public class EmployeeService
         }
 
         EmployeeRepository.Deactivate(employee);
+        
+        System.Console.WriteLine("Successful deactivate");
+
+        Console.ReadKey();
+        Console.Clear();
     }
     public static void Create()
     {
