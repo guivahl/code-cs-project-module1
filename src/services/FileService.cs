@@ -22,6 +22,12 @@ public class FileService
     }
     public bool FileExists() => new FileInfo(this.Filepath).Exists;
 
+    public void CreateFileIfNotExists() {
+        if (this.FileExists()) return;
+
+        using (File.Create(this.Filepath)) {}
+    }
+
     public void CreateFolderIfNotExists()
     {
         if (this.Folder == null) return;

@@ -69,6 +69,8 @@ public static class ClientRepository
     {
         FileService clientFile = new FileService(ClientRepository.CSV_FILENAME);
 
+        clientFile.CreateFileIfNotExists();
+
         List<ClientAccountDto> clientsAccounts = clientFile.Read<ClientAccountDto>();
 
         Clients = clientsAccounts.Select(clientAccount => ClientRepository.Create(clientAccount)).ToList();

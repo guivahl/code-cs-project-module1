@@ -68,6 +68,8 @@ public static class EmployeeRepository
     {
         FileService employeeFile = new FileService(EmployeeRepository.CSV_FILENAME);
 
+        employeeFile.CreateFileIfNotExists();
+        
         Employees = employeeFile.Read<Employee>();
     }
     public static bool HasEmployeesRegistered() => Employees.Count != 0;
