@@ -5,6 +5,12 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src", "src\src.csproj", "{32F6D722-6F42-4448-B47A-1E8364B0FA82}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ECAFF425-E8C8-4091-97EF-0A53F8D88AE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities.Tests", "tests\Entities.Tests\Entities.Tests.csproj", "{3B0C92D1-F053-43DB-A117-B6E4C82A58FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories.Tests", "tests\Repositories.Tests\Repositories.Tests.csproj", "{7B396E7A-5DD2-4730-A2D3-8A277D16F85A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{32F6D722-6F42-4448-B47A-1E8364B0FA82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32F6D722-6F42-4448-B47A-1E8364B0FA82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32F6D722-6F42-4448-B47A-1E8364B0FA82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B0C92D1-F053-43DB-A117-B6E4C82A58FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B0C92D1-F053-43DB-A117-B6E4C82A58FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B0C92D1-F053-43DB-A117-B6E4C82A58FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B0C92D1-F053-43DB-A117-B6E4C82A58FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B396E7A-5DD2-4730-A2D3-8A277D16F85A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B396E7A-5DD2-4730-A2D3-8A277D16F85A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B396E7A-5DD2-4730-A2D3-8A277D16F85A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B396E7A-5DD2-4730-A2D3-8A277D16F85A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3B0C92D1-F053-43DB-A117-B6E4C82A58FD} = {ECAFF425-E8C8-4091-97EF-0A53F8D88AE1}
+		{7B396E7A-5DD2-4730-A2D3-8A277D16F85A} = {ECAFF425-E8C8-4091-97EF-0A53F8D88AE1}
 	EndGlobalSection
 EndGlobal

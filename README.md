@@ -72,3 +72,4 @@ Para que esse mecanismo funcione, além de armazenar o hash da senha do usuário
 
 ### Erros identificados
 - Enums TransactionType e TransactionWay deram problemas na hora de armazenar usando o csvhelper. Não consegui ajustar para escritar e leitura simultaneamente. Na opção de report com mostragem os dados ficam com valor default ao invés do que de fato está na tabela.
+- Busquei uma abordagem voltada as práticas do TDD no inicio do projeto, contudo percebi que iria demorar muito mais tempo para conclusão do mesmo. Assim, abandonei a ideia. Adicionei a soluçao de testes no projeto de qualquer forma, para demonstrar até onde cheguei.
