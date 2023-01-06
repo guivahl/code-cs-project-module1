@@ -21,7 +21,8 @@ public sealed class Account
         this.Balance = Balance;
     }
 
-    public Account(ClientAccountDto clientAccount) {
+    public Account(ClientAccountDto clientAccount)
+    {
         this.AccountNumber = clientAccount.AccountNumber;
         this.CheckDigit = clientAccount.CheckDigit;
         this.Agency = clientAccount.Agency;

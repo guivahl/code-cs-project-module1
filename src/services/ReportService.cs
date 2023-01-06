@@ -5,7 +5,8 @@ using BetterConsoles.Tables;
 
 public class ReportService
 {
-    private static void Show(string[] columns, IEnumerable<object?[]> data) {
+    private static void Show(string[] columns, IEnumerable<object?[]> data)
+    {
         Table table = new Table(TableConfig.MySql(), columns);
 
         table.AddRows(data);
@@ -36,10 +37,10 @@ public class ReportService
         };
         IEnumerable<object?[]> clients = inactiveClients
             .Select(client => new object?[] {
-                client.Name, client.CPF, 
+                client.Name, client.CPF,
                 client.DeactivateAt
             });
-            
+
         ReportService.Show(columns, clients);
 
     }

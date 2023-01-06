@@ -52,7 +52,8 @@ public class TransactionService
     private static bool IsValidTef(TransactionDto transaction) =>
         transaction.OriginBankCode == transaction.DestinationBankCode;
 
-    public static bool IsValidClientAndAccount(string? bankCode, string? agency, string? accountNumberWithDigit) {
+    public static bool IsValidClientAndAccount(string? bankCode, string? agency, string? accountNumberWithDigit)
+    {
         Account? account = AccountRepository.Find(bankCode, agency, accountNumberWithDigit);
 
         if (account == null) return false;
@@ -62,7 +63,7 @@ public class TransactionService
         if (client == null) return false;
 
         if (ClientRepository.IsActiveClient(client)) return false;
-        
+
         return true;
     }
 
@@ -70,10 +71,11 @@ public class TransactionService
     {
         if (
             transaction.OriginBankCode == transaction.DestinationBankCode
-        ) {
+        )
+        {
             bool isValidOriginAccount = TransactionService.IsValidClientAndAccount(transaction.OriginBankCode, transaction.OriginAgency, transaction.OriginAccountNumber);
             bool isValidDestinationAccount = TransactionService.IsValidClientAndAccount(transaction.OriginBankCode, transaction.OriginAgency, transaction.OriginAccountNumber);
-        
+
             return isValidOriginAccount && isValidDestinationAccount;
         }
 
@@ -90,15 +92,16 @@ public class TransactionService
         return false;
     }
 
-    public static bool HasEnoughBalance(TransactionDto transaction) {
+    public static bool HasEnoughBalance(TransactionDto transaction)
+    {
         if (transaction.TransactionWay == TransactionWay.Débito)
         {
             Account? account = AccountRepository.Find(transaction.OriginBankCode, transaction.OriginAgency, transaction.OriginAccountNumber);
-            
+
             if (account == null) return false;
-            
+
             Client? client = ClientRepository.FindByAccount(account);
-            
+
             if (client == null) return false;
             bool hasEnoughBalance = ClientRepository.ValidClientBalance(client, transaction.Value);
 
@@ -153,14 +156,15 @@ public class TransactionService
     private static void SaveFailedTransactions(List<TransactionDto> transactions, string originalFileName)
     {
         string failedPath = TransactionService.FailedTransactionFileName(originalFileName);
-    
+
         FileService file = new FileService(failedPath, TransactionService.FOLDER_FAILED);
 
         file.CreateFolderIfNotExists();
 
         file.Write(transactions);
     }
-    public static void DebitValue(string? bankCode, string? agency, string? accountNumberWithDigit, decimal debitValue) {
+    public static void DebitValue(string? bankCode, string? agency, string? accountNumberWithDigit, decimal debitValue)
+    {
         Account? account = AccountRepository.Find(bankCode, agency, accountNumberWithDigit);
 
         if (account == null) return;
@@ -170,11 +174,12 @@ public class TransactionService
         if (client == null) return;
 
         ClientRepository.DebitValue(client, debitValue);
-        
+
         return;
     }
 
-    public static void CreditValue(string? bankCode, string? agency, string? accountNumberWithDigit, decimal creditValue) {
+    public static void CreditValue(string? bankCode, string? agency, string? accountNumberWithDigit, decimal creditValue)
+    {
         Account? account = AccountRepository.Find(bankCode, agency, accountNumberWithDigit);
 
         if (account == null) return;
@@ -184,16 +189,18 @@ public class TransactionService
         if (client == null) return;
 
         ClientRepository.CreditValue(client, creditValue);
-        
+
         return;
     }
 
-    public static void UpdateBalance(TransactionDto transaction) {
+    public static void UpdateBalance(TransactionDto transaction)
+    {
         decimal debitValue = transaction.Value + transaction.Fare;
 
         if (
             transaction.OriginBankCode == transaction.DestinationBankCode
-        ) {
+        )
+        {
             TransactionService.DebitValue(transaction.OriginBankCode, transaction.OriginAgency, transaction.OriginAccountNumber, debitValue);
             TransactionService.CreditValue(transaction.DestinationBankCode, transaction.DestinationAgency, transaction.DestinationAccountNumber, transaction.Value);
             return;
@@ -210,33 +217,37 @@ public class TransactionService
 
     }
 
-    public static void UpdateBalances (List<TransactionDto> transactions) =>
+    public static void UpdateBalances(List<TransactionDto> transactions) =>
     transactions.ForEach(
             transaction =>
             TransactionService.UpdateBalance(transaction)
         );
 
-    public static void ApplyFare(TransactionDto transaction, DateTime fileDate) {
+    public static void ApplyFare(TransactionDto transaction, DateTime fileDate)
+    {
         if (transaction.TransactionWay == TransactionWay.Crédito) return;
         if (transaction.OriginBankCode != Account.BANK_CODE && transaction.OriginBankCode != transaction.DestinationBankCode) return;
-        
-        if (transaction.TransactionWay == TransactionWay.Débito) {
+
+        if (transaction.TransactionWay == TransactionWay.Débito)
+        {
             DateTime debitDateFare = DateTime.ParseExact("20221130", "yyyyMMdd", CultureInfo.InvariantCulture);
-            
+
             int compareResult = DateTime.Compare(fileDate, debitDateFare);
-            
+
             bool shouldApplyFare = compareResult > 0;
 
             if (!shouldApplyFare) return;
 
             if (transaction.TransactionType == TransactionType.TEF) return;
 
-            if (transaction.TransactionType == TransactionType.TED) {
+            if (transaction.TransactionType == TransactionType.TED)
+            {
                 decimal TEDFare = 5.0m;
 
                 transaction.Fare = TEDFare;
             }
-            if (transaction.TransactionType == TransactionType.DOC) {
+            if (transaction.TransactionType == TransactionType.DOC)
+            {
                 decimal BASE_DOC_FARE = 1.0m;
 
                 decimal LIMIT_VARIABLE_FARE = 5.0M;

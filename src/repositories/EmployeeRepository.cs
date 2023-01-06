@@ -72,6 +72,6 @@ public static class EmployeeRepository
     }
     public static bool HasEmployeesRegistered() => Employees.Count != 0;
 
-    public static List<Employee> ActiveEmployees () =>
+    public static List<Employee> ActiveEmployees() =>
         Employees.Where(employee => employee.DeactivateAt == null && employee.LastLoginAt != null).ToList();
 }

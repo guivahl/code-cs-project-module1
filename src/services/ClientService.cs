@@ -88,7 +88,7 @@ public class ClientService
         Console.Clear();
     }
 
-     public static void Update()
+    public static void Update()
     {
         System.Console.Write("CPF: ");
         string? clientCpf = Console.ReadLine();
@@ -130,7 +130,7 @@ public class ClientService
         Console.Clear();
     }
 
-     public static void Deactivate()
+    public static void Deactivate()
     {
         System.Console.Write("CPF: ");
         string? clientCpf = Console.ReadLine();

@@ -7,7 +7,8 @@ public sealed class Client
     public string CPF { get; init; }
     public DateTime? DeactivateAt { get; set; }
 
-    public Client(string CPF, string Name, Account account, DateTime? DeactivateAt = null) { 
+    public Client(string CPF, string Name, Account account, DateTime? DeactivateAt = null)
+    {
         this.CPF = CPF;
         this.Name = Name;
         this.Account = account;

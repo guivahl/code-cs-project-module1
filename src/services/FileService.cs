@@ -41,7 +41,7 @@ public class FileService
         target.Create();
     }
 
-    public List<T> Read<T, TMap>() 
+    public List<T> Read<T, TMap>()
     where TMap : ClassMap
     {
 
@@ -52,9 +52,9 @@ public class FileService
 
         using var reader = new StreamReader(this.Filepath);
         using var csv = new CsvReader(reader, config);
-        
-        csv.Context.RegisterClassMap<TMap>(); 
-        
+
+        csv.Context.RegisterClassMap<TMap>();
+
         return csv.GetRecords<T>().ToList();
     }
     public List<T> Read<T>()
