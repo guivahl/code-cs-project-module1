@@ -7,6 +7,7 @@ class Program
     {
         ClientRepository.Load();
         EmployeeRepository.Load();
+
         while (!EmployeeService.Authenticate())
         {
             System.Console.WriteLine("Authentication failed!");

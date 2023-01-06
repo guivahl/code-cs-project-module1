@@ -1,8 +1,10 @@
 namespace src;
 
+using System;
 using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
+
 public class TransactionDto
 {
     [Index(0)]
@@ -34,12 +36,30 @@ public class TransactionDto
     [Index(9)]
     public string? ErrorMessage { get; set; }
 
-    [Index(8)]
+    [Index(10)]
     public decimal Fare { get; set; }
 }
-public sealed class TransactionMap : ClassMap<TransactionDto>
+
+public sealed class TransactionMapRead : ClassMap<TransactionDto>
 {
-    public TransactionMap()
+    public TransactionMapRead()
+    {
+        Map(f => f.OriginBankCode).Index(0);
+        Map(f => f.OriginAgency).Index(1);
+        Map(f => f.OriginAccountNumber).Index(2);
+        Map(f => f.DestinationBankCode).Index(3);
+        Map(f => f.DestinationAgency).Index(4);
+        Map(f => f.DestinationAccountNumber).Index(5);
+        Map(f => f.TransactionType).Index(6).Convert(row => row.ToString());
+        Map(f => f.TransactionWay).Index(7).Convert(row => row.ToString());
+        Map(f => f.Value);
+        Map(f => f.ErrorMessage);
+        Map(f => f.Fare);
+    }
+}
+public sealed class TransactionMapWrite : ClassMap<TransactionDto>
+{
+    public TransactionMapWrite()
     {
         Map(f => f.OriginBankCode).Index(0);
         Map(f => f.OriginAgency).Index(1);

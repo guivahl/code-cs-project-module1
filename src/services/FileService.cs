@@ -41,13 +41,14 @@ public class FileService
         target.Create();
     }
 
-    public List<T> Read<T, TMap>()
+    public List<T> Read<T, TMap>(bool hasHeader = false)
     where TMap : ClassMap
     {
 
         CsvConfiguration config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            HasHeaderRecord = false,
+            HasHeaderRecord = hasHeader,
+            MissingFieldFound = null
         };
 
         using var reader = new StreamReader(this.Filepath);

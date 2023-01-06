@@ -12,7 +12,6 @@ public class ReportService
         table.AddRows(data);
 
         Console.Write(table.ToString());
-        Console.ReadKey();
     }
     public static void ShowActiveClients()
     {
@@ -27,6 +26,7 @@ public class ReportService
             });
 
         ReportService.Show(columns, clients);
+        Console.ReadKey();
     }
     public static void ShowInactiveClients()
     {
@@ -42,6 +42,7 @@ public class ReportService
             });
 
         ReportService.Show(columns, clients);
+        Console.ReadKey();
 
     }
     public static void ShowActiveEmployees()
@@ -58,8 +59,66 @@ public class ReportService
             });
 
         ReportService.Show(columns, employees);
+        Console.ReadKey();
     }
 
-    // To-do : Exibir Transações com Erro (Detalhes da transação e do Erro)
-    public static void ShowTransactionsFailed() { }
+    public static void ShowTransactionsFailed()
+    {
+        FileInfo[] transactionFiles = TransactionService.TransactionFiles(TransactionService.FOLDER_FAILED);
+
+        string[] originColumns = new string[] {
+            "OriginBankCode", "OriginAgency", "OriginAccountNumber"
+        };
+        string[] destinationColumns = new string[] {
+            "DestinationBankCode", "DestinationAgency", "DestinationAccountNumber"
+        };
+        string[] operationDetails = new string[] {
+            "TransactionType","TransactionWay","Value", "ErrorMessage"
+        };
+
+        for (int i = 0; i < transactionFiles.Length; i++)
+        {
+            string inputFileName = transactionFiles[i].Name;
+            System.Console.WriteLine($"File: {inputFileName}");
+
+            FileService file = new FileService(inputFileName, TransactionService.FOLDER_FAILED);
+            List<TransactionDto> failedTransactions = file.Read<TransactionDto, TransactionMapRead>(true);
+
+            IEnumerable<object?[]> origin = failedTransactions
+                .Select(transaction => new object?[] {
+                    transaction.OriginBankCode,
+                    transaction.OriginAgency,
+                    transaction.OriginAccountNumber
+                });
+
+            IEnumerable<object?[]> destination = failedTransactions
+                .Select(transaction => new object?[] {
+                    transaction.DestinationBankCode,
+                    transaction.DestinationAgency,
+                    transaction.DestinationAccountNumber
+                });
+
+
+            IEnumerable<object?[]> details = failedTransactions
+                .Select(transaction => new object?[] {
+                    transaction.TransactionType.ToString(),
+                    transaction.TransactionWay.ToString(),
+                    transaction.Value,
+                    transaction.ErrorMessage
+                });
+
+            System.Console.WriteLine("#### ORIGIN ACCOUNT ####");
+            ReportService.Show(originColumns, origin);
+
+            System.Console.WriteLine("#### DESTINATION ACCOUNT ####");
+            ReportService.Show(destinationColumns, destination);
+
+            System.Console.WriteLine("#### OPERATION FAIL DETAILS ####");
+            ReportService.Show(operationDetails, details);
+
+            System.Console.WriteLine("Press Enter to continue...");
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
 }

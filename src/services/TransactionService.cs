@@ -5,9 +5,9 @@ using System.Globalization;
 
 public class TransactionService
 {
-    private static readonly string FOLDER = "Transactions";
-    private static readonly string FOLDER_FAILED = Path.Join(TransactionService.FOLDER, "Failed");
-    private static readonly string FOLDER_COMPLETED = Path.Join(TransactionService.FOLDER, "Completed");
+    public static readonly string FOLDER = "Transactions";
+    public static readonly string FOLDER_FAILED = Path.Join(TransactionService.FOLDER, "Failed");
+    public static readonly string FOLDER_COMPLETED = Path.Join(TransactionService.FOLDER, "Completed");
     private static readonly char SEPARATOR_CHAR_FILE = '-';
 
 
@@ -39,6 +39,20 @@ public class TransactionService
     {
         string pathDesktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         string pathTransaction = Path.Join(pathDesktop, TransactionService.FOLDER);
+
+        DirectoryInfo transactionFolder = new DirectoryInfo(pathTransaction);
+
+        FileService.CreateFolderIfNotExists(pathTransaction);
+
+        FileInfo[] transactionFiles = transactionFolder.GetFiles();
+
+        return transactionFiles;
+    }
+
+    public static FileInfo[] TransactionFiles(string folder)
+    {
+        string pathDesktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string pathTransaction = Path.Join(pathDesktop, folder);
 
         DirectoryInfo transactionFolder = new DirectoryInfo(pathTransaction);
 
@@ -281,7 +295,7 @@ public class TransactionService
         DateTime parsedDate = DateTime.ParseExact(fileDate, "yyyyMMdd", CultureInfo.InvariantCulture);
 
         FileService file = new FileService(inputFileName, TransactionService.FOLDER);
-        List<TransactionDto> transactions = file.Read<TransactionDto, TransactionMap>();
+        List<TransactionDto> transactions = file.Read<TransactionDto, TransactionMapWrite>();
 
         TransactionService.ApplyFares(transactions, parsedDate);
 
@@ -306,7 +320,8 @@ public class TransactionService
         {
             TransactionService.ProcessFile(transactionFiles[i]);
         }
-
+        System.Console.WriteLine("Transactions processed! Press enter to continue...");
+        System.Console.ReadKey();
     }
 }
 
