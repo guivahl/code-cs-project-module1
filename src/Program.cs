@@ -7,10 +7,11 @@ class Program
     {
         ClientRepository.Load();
         EmployeeRepository.Load();
-        while(!EmployeeService.Authenticate()) {
+        while (!EmployeeService.Authenticate())
+        {
             System.Console.WriteLine("Authentication failed!");
             System.Console.WriteLine("Press any key to try again!");
-                    
+
             Console.ReadKey();
             Console.Clear();
         };
@@ -23,12 +24,12 @@ class Program
             .Add("Close", ConsoleMenu.Close)
             .Configure(config =>
                     {
-                    config.Selector = ">>> ";
-                    config.Title = "Client Menu";
-                    config.EnableWriteTitle = true;
-                    config.EnableBreadcrumb = true;
-            });
-        
+                        config.Selector = ">>> ";
+                        config.Title = "Client Menu";
+                        config.EnableWriteTitle = true;
+                        config.EnableBreadcrumb = true;
+                    });
+
         ConsoleMenu employeeMenu = new ConsoleMenu()
             .Add("Create new employee", () => EmployeeService.Create())
             .Add("Update employee password", () => EmployeeService.UpdatePassword())
@@ -36,11 +37,11 @@ class Program
             .Add("Close", ConsoleMenu.Close)
             .Configure(config =>
                     {
-                    config.Selector = ">>> ";
-                    config.Title = "Employee Menu";
-                    config.EnableWriteTitle = true;
-                    config.EnableBreadcrumb = true;
-            });
+                        config.Selector = ">>> ";
+                        config.Title = "Employee Menu";
+                        config.EnableWriteTitle = true;
+                        config.EnableBreadcrumb = true;
+                    });
 
         ConsoleMenu reportMenu = new ConsoleMenu()
             .Add("Show active clients", () => ReportService.ShowActiveClients())
@@ -50,23 +51,23 @@ class Program
             .Add("Close", ConsoleMenu.Close)
             .Configure(config =>
                     {
-                    config.Selector = ">>> ";
-                    config.Title = "Report Menu";
-                    config.EnableWriteTitle = true;
-                    config.EnableBreadcrumb = true;
-            });
+                        config.Selector = ">>> ";
+                        config.Title = "Report Menu";
+                        config.EnableWriteTitle = true;
+                        config.EnableBreadcrumb = true;
+                    });
 
         ConsoleMenu transactionMenu = new ConsoleMenu()
             .Add("Process transactions", () => TransactionService.ProcessTransactions())
             .Add("Close", ConsoleMenu.Close)
             .Configure(config =>
                     {
-                    config.Selector = ">>> ";
-                    config.Title = "Transaction Menu";
-                    config.EnableWriteTitle = true;
-                    config.EnableBreadcrumb = true;
-            });
-        
+                        config.Selector = ">>> ";
+                        config.Title = "Transaction Menu";
+                        config.EnableWriteTitle = true;
+                        config.EnableBreadcrumb = true;
+                    });
+
         ConsoleMenu menu = new ConsoleMenu()
             .Add("Clients", clientMenu.Show)
             .Add("Employees", employeeMenu.Show)
@@ -75,11 +76,11 @@ class Program
             .Add("Close", ConsoleMenu.Close)
             .Configure(config =>
                     {
-                    config.Selector = ">>> ";
-                    config.Title = "Main Menu";
-                    config.EnableWriteTitle = true;
-                    config.EnableBreadcrumb = true;
-            });
+                        config.Selector = ">>> ";
+                        config.Title = "Main Menu";
+                        config.EnableWriteTitle = true;
+                        config.EnableBreadcrumb = true;
+                    });
 
         menu.Show();
     }
