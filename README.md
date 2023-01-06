@@ -69,3 +69,6 @@ Transações a Débito realizadas/recebidas a partir de 01/12/2022:
 Um salt é, basicamente, uma cadeia de caracteres aleatória que é concatenada ao começo ou ao final da senha fornecida pelo usuário antes de aplicarmos a função de Criptografia/Hash. O uso do salt permite que o hash gerado seja completamente diferente, mesmo que duas ou mais senhas sejam idênticas. Uma vez que cada uma delas tem seu próprio salto, os hashs serão diferentes.
 
 Para que esse mecanismo funcione, além de armazenar o hash da senha do usuário, precisamos também armazenar o Salt, para que, no momento do login, possamos fazer a concatenação do hash daquele usuário específico com a senha fornecida no login a fim de comparar o resultado com o hash armazenado no "banco de dados".
+
+### Erros identificados
+- Enums TransactionType e TransactionWay deram problemas na hora de armazenar usando o csvhelper. Não consegui ajustar para escritar e leitura simultaneamente. Na opção de report com mostragem os dados ficam com valor default ao invés do que de fato está na tabela.

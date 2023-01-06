@@ -81,7 +81,5 @@ public enum TransactionType
 public enum TransactionWay
 {
     Débito = 0,
-    Saída = 0,
     Crédito = 1,
-    Entrada = 1
 }
